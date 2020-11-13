@@ -16,11 +16,13 @@ ll initMax(int index, int start, int end) {
 		int mid = (start + end) / 2;
 		ll lm = initMax(index * 2 + 1, start, mid);
 		ll rm = initMax(index * 2 + 2, mid + 1, end);
-		treeMax[index] = (lm > rm) ? lm : rm;	}
+		treeMax[index] = (lm > rm) ? lm : rm;
+	}
 	return treeMax[index];
 }
 
 ll initMin(int index, int start, int end) {
+	//cout << "initMin(" << index << ", " << start << ", " << end << ") called\n";
 	if (start == end) {
 		treeMin[index] = nums[start];
 	}
@@ -47,7 +49,8 @@ ll getMax(int index, int start, int end, int left, int right) {
 }
 
 ll getMin(int index, int start, int end, int left, int right) {
-	if (start > right || end < left) return 100000001;
+	//cout << "getMin(" << index << ", " << start << ", " << end << ", " << left << ", " << right << ") called\n";
+	if (start > right || end < left) return 1000000001;
 	else if (start >= left && end <= right) {
 		return treeMin[index];
 	}
@@ -78,7 +81,7 @@ int main() {
 	
 	for (int i = 0; i < M; i++) {
 		int a, b;
-		cin >> a, b;
+		cin >> a >> b;
 		cout << getMin(0, 0, N - 1, a - 1, b - 1) << ' ' << getMax(0, 0, N - 1, a - 1, b - 1) << '\n';
 	}
 }
