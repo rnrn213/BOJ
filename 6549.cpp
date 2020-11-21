@@ -1,62 +1,46 @@
+// https://private-space.tistory.com/12 코드 참고
+
 #include <bits/stdc++.h>
 
 using namespace std;
-
-long long getArea(const vector<long long>& v, int index) {
-	long long h = v[index];
-	long long area = h;
-	long long min = h;
-	bool decrease = false;
-	bool isRect = true;
-	if (h == 1) return 1;
-	int w = 1;
-	for (int i = index + 1; i < v.size(); i++) {
-		if (!isRect) return area;
-		w++;
-		if (v[i] >= h) {
-			if (decrease) isRect = false;
-			if (isRect) area = w * h;
-		}
-		else {
-			decrease = true;
-			if (min > v[i]) {
-				min = v[i];
-			}
-			else if (min < v[i]) {
-				isRect = false;
-			}
-
-			if (area < w * v[i] && isRect) {
-				area = w * v[i];
-			}
-		}
-	}
-	return area;
-}
 
 int main() {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 	
 	while (true) {
-		priority_queue<long long> pq;
-		vector<long long> v;
 		int n;
 		cin >> n;
 		if (n == 0) break;
-		long long max = n;
 
+		stack<int> s;
+		long long* h = new long long[n];
 		for (int i = 0; i < n; i++) {
-			long long h;
-			cin >> h;
-			v.push_back(h);
+			cin >> h[i];
+		}
+		long long area = 0;
+		for (int i = 0; i < n; i++) {
+			while (!s.empty() && h[s.top()] >= h[i]) {
+				int temp = s.top();
+				s.pop();
+				int w;
+				if (s.empty()) w = i;
+				else w = i - s.top() - 1;
+
+				area = max(area, h[temp] * w);
+			}
+			s.push(i);
 		}
 
-		for (int i = 0; i < v.size(); i++) {
-			long long area = getArea(v, i);
-			max = (max > area) ? max : area;
+		while (!s.empty()) {
+			int temp = s.top();
+			s.pop();
+			int w = n;
+			if (!s.empty()) {
+				w -= s.top() + 1;
+			}
+			area = max(area, h[temp] * w);
 		}
-		
-		cout << max << '\n';
+		cout << area << '\n';
 	}
 }
