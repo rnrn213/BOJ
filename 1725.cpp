@@ -16,32 +16,33 @@ int main() {
         v.push_back(num);
     }
 
-    stack<int> s;
-    long long minIndex = 0;
     long long area = 0;
-    s.push(0);
+    stack<int> s;
     for (int i = 0; i < N; i++) {
-        if (v[i] >= s.top()) {
-            s.push(i);
-        }
-        else {
+        while (!s.empty() && v[s.top()] >= v[i]) {
             int temp = s.top();
-            while (!s.empty()) {
-                if (area < v[s.top()] * (temp - s.top() + 1)) {
-                    area = v[s.top()] * (temp - s.top() + 1);
-                }
-                s.pop();
-            }
+            s.pop();
 
-            if (v[i] < v[minIndex])
-                minIndex = i;
-            else {
-                if (area < v[minIndex] * (i - minIndex + 1)) {
-                    area = v[minIndex] * (i - minIndex + 1);
-                }
+            int w;
+            if (s.empty()) {
+                w = i;
             }
-            s.push(i);
+            else {
+                w = i - s.top() - 1;
+            }
+            area = max(area, v[temp] * w);
         }
+        s.push(i);
+    }
+
+    while (!s.empty()) {
+        int temp = s.top();
+        s.pop();
+        int w = N;
+        if (!s.empty()) {
+            w -= s.top() + 1;
+        }
+        area = max(area, v[temp] * w);
     }
     cout << area;
 }
