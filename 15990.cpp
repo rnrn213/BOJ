@@ -2,8 +2,9 @@
 
 using namespace std;
 
-int T, * n, cache[100001][4];
-vector<int> answers;
+int T, * n;
+long long cache[100001][4];
+vector<long long> answers;
 
 void initCache() {
     cache[1][0] = 1;
@@ -43,7 +44,7 @@ void getAnswer() {
 }
 
 void output() {
-    for (int ans: answers) {
+    for (long long ans: answers) {
         cout << ans << '\n';
     }
 }
