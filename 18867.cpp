@@ -14,22 +14,6 @@ long long s(int x, int index = 814) {
     return (s(x, index / 2) * s(x, index / 2 + index % 2)) % 20200429;
 }
 
-void getY(int y, int size) {
-    if (y == 20200402) {
-        cout << "success";
-        return;
-    }
-    if (size > 990316) {
-        cout << y << "\n";
-        return;
-    }
-        
-
-    for (int i = 0; i < 62; i++) {
-        getY((y +v[i]) % 20200429, size + 1);
-    }
-}
-
 string solve() {
 
     for (int i = 48; i <= 57; i++) {
