@@ -28,7 +28,7 @@ int main() {
     int ans = 0;
     for (int d = 0; d <= K; d++) {
         int maxLength = 0;
-        for (int i = 0; i < oddNumIndex.size() - 1 - d; i++) {
+        for (int i = 0; i < static_cast<int>(oddNumIndex.size()) - 1 - d; i++) {
             if (oddNumIndex[i + d + 1] - oddNumIndex[i] - d - 1 > maxLength) {
                 maxLength = oddNumIndex[i + d + 1] - oddNumIndex[i] - d - 1;
             }
