@@ -9,23 +9,23 @@ int main() {
         int N;
         cin >> N;
 
-        bool isPossible = false;
-        int b = ceil(sqrt(N)), a = sqrt(pow(b, 2) - N);
-        while (pow(b, 2) - pow(a, 2) <= N * 2) {
-            if (pow(b, 2) - pow(a, 2) == N) {
-                isPossible = true;
-                break;
+        vector< pair<int, int> > v;
+        for (int i = 1; i <= sqrt(N); i++) {
+            if (N % i == 0) {
+                int j = N / i;
+                int a = (j - i) / 2, b = (i + j) / 2;
+                if ((b - a) * (b + a) == N) {
+                    v.push_back(make_pair(a, b));
+                }
             }
-
-            b++;
-            a = sqrt(pow(b, 2) - N);
         }
+        sort(v.begin(), v.end());
 
-        if (isPossible)
-            cout << a << " " << b << "\n";
-        else
+        if (v.size() == 0)
             cout << "IMPOSSIBLE\n";
-        
+        else
+            cout << v[0].first << " " << v[0].second << "\n";
+
         T--;
     }
 }
