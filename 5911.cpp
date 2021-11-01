@@ -13,7 +13,7 @@ int main() {
     }
 
     for (int i = 0; i < N - 1; i++) {
-        for (int j = 0; j < N; j++) {
+        for (int j = i + 1; j < N; j++) {
             if (friends[i].first + friends[i].second > friends[j].first + friends[j].second) {
                 pair<int, int> temp = friends[i];
                 friends[i] = friends[j];
@@ -43,4 +43,4 @@ int main() {
     }
 
     cout << maxCnt;
-}
+}   
