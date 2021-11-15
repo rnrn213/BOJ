@@ -5,7 +5,7 @@ using namespace std;
 vector< string > fibo;
 
 string sSum(const string& s1, const string& s2) {
-    string ret;
+    string ret = "";
     int carry = 0;
     for (int i = 0; i < s2.size(); i++) {
         int num = s1[i] - '0' + s2[i] - '0';
@@ -31,30 +31,24 @@ int main() {
     fibo.push_back("2");
     for (int i = 2;; i++) {
         fibo.push_back(sSum(fibo[i - 1], fibo[i - 2]));
-        if (fibo[i].size() >= 100)
+        if (fibo[i].size() >= 101)
             break;
     }
 
     while (true) {
         string a, b;
         cin >> a >> b;
-        reverse(a.begin(), a.end());
-        reverse(b.begin(), b.end());
-        cout << a << " " << b << "\n";
         if (a == "0" && b == "0")
             break;
 
-        int i = -1, j = -1, idx1 = 0, idx2 = fibo.size() - 1;
-        while (idx1 < fibo.size() && idx2 >= 0) {
-            if (i == -1 && (a.size() < fibo[idx1].size() || (a.size() == fibo[idx1].size() && a <= fibo[idx1])))
-                i = idx1;
-            if (j == -1 && (b.size() > fibo[idx2].size() || (b.size() == fibo[idx2].size() && b >= fibo[idx2])))
-                j = idx2;
-            
-            idx1++;
-            idx2--;
+        int cnt = 0;
+        for (int i = 0; i < fibo.size(); i++) {
+            string temp(fibo[i].rbegin(), fibo[i].rend());
+            if ((a.size() < temp.size() || (a.size() == temp.size() && a <= temp)) && 
+                (b.size() > temp.size() || (b.size() == temp.size() && temp <= b)))
+                cnt++;
         }
 
-        cout << j - i + 1 << "\n";
+        cout << cnt << '\n';
     }
 }
