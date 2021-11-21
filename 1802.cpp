@@ -5,16 +5,16 @@ using namespace std;
 int T;
 string s;
 
-int solve(int L, int R) {
+bool solve(int L, int R) {
     if (L == R)
-        return s[L];
+        return true;
     
-    int left = solve(L, (L + R) / 2 - 1);
-    int right = solve((L + R) / 2 + 1, R);
-    if (left == -1 || right == -1 || left == right)
-        return -1;
-    else
-        return s[(L + R) / 2];
+    int left = L, right = R;
+    while (left < right)
+        if (s[left++] == s[right--])
+            return false;
+    
+    return solve(L, right - 1);
 }
 
 int main() {
@@ -23,14 +23,12 @@ int main() {
     cout.tie(NULL);
 
     cin >> T;
-    while (T) {
+    while (T--) {
         cin >> s;
 
-        if (solve(0, s.size() - 1) == -1)
-            cout << "NO\n";
-        else
+        if (solve(0, s.size() - 1))
             cout << "YES\n";
-
-        T--;
+        else
+            cout << "NO\n";
     }
 }
