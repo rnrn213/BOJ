@@ -27,8 +27,10 @@ int main() {
     queue<int> normalQ;
     normalQ.push(1);
     isVisited[1] = true;
-    if (ladder[1] != -1)
+    if (ladder[1] != -1) {
         normalQ.push(ladder[1]);
+        isVisited[ladder[1]] = true;
+    }
     int diceCnt = 1;
     while (!normalQ.empty()) {
         queue<int> nextNormalQ;
@@ -37,23 +39,21 @@ int main() {
             int x = normalQ.front();
             normalQ.pop();
 
-            cout << x << "\n";
-
             for (int i = 1; i <= 6; i++) {
                 if (x + i == 100 || ladder[x + i] == 100) {
                     cout << diceCnt;
                     return 0;
                 }
-                else if (x + i < 100 && !isVisited[x + i]) {
-                    if (ladder[x + i] != -1 && !isVisited[ladder[x + i]]) {
+                else if (x + i < 100) {
+                    if (ladder[x + i] != -1) {
                         nextNormalQ.push(ladder[x + i]);
                         isVisited[ladder[x + i]] = true;
                     }
-                    else if (snake[x + i] != -1 && !isVisited[ladder[x + i]]) {
+                    else if (snake[x + i] != -1) {
                         nextNormalQ.push(snake[x + i]);
                         isVisited[snake[x + i]] = true;
                     }
-                    else {
+                    else if (!isVisited[x + i]) {
                         nextNormalQ.push(x + i);
                         isVisited[x + i] = true;
                     }
