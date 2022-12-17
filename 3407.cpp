@@ -2,46 +2,50 @@
 
 using namespace std;
 
-vector< vector<string> > periodicTable(26);
-vector<string> initialPeriodicTable = {"H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm","Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Fl", "Lv"};
+vector<string> periodicTable = {"h", "he", "li", "be", "b", "c", "n", "o", "f", "ne", "na", "mg", "al", "si", "p", "s", "cl", "ar", "k", "ca", "sc", "ti", "v", "cr", "mn", "fe", "co", "ni", "cu", "zn", "ga", "ge", "as", "se", "br", "kr", "rb", "sr", "y", "zr", "nb", "mo", "tc", "ru", "rh", "pd", "ag", "cd", "in", "sn", "sb", "te", "i", "xe", "cs", "ba", "la", "ce", "pr", "nd", "pm", "sm", "eu", "gd", "tb", "dy", "ho", "er", "tm", "yb", "lu", "hf", "ta", "w", "re", "os", "ir", "pt", "au", "hg", "tl", "pb", "bi", "po", "at", "rn", "fr", "ra", "ac", "th", "pa", "u", "np", "pu", "am", "cm", "bk", "cf", "es", "fm", "md", "no", "lr", "rf", "db", "sg", "bh", "hs", "mt", "ds", "rg", "cn", "fl", "lv"};
 
-void initPeriodicTable() {
-    for (int i = 0; i < initialPeriodicTable.size(); i++) {
-        initialPeriodicTable[i][0] = static_cast<char>(initialPeriodicTable[i][0] + 32);
-        periodicTable[initialPeriodicTable[i][0] - 'a'].push_back(initialPeriodicTable[i]);
+int adj[26][26], T, cache[50001];
+string word;
+
+void initGraph() {
+    for (int i = 0; i < periodicTable.size(); i++) {
+        if (periodicTable[i].size() == 1) {
+            adj[periodicTable[i][0]- 'a'][periodicTable[i][0]- 'a'] = 1;
+        }
+        else {
+            adj[periodicTable[i][0]- 'a'][periodicTable[i][1]- 'a'] = 1;
+        }
     }
 }
 
+int solve(int idx) {
+    if (idx == word.size()) return 1;
 
-bool solve(string& word) {
-    if (word.size() == 0)
-        return true;
+    int& ret = cache[idx];
+    if (ret != -1) return ret;
+    ret = 0;
+
+    if (adj[word[idx] - 'a'][word[idx] - 'a'])
+        ret = ret || solve(idx + 1);
     
-    bool ret = false;
-    for (int i = 0; i < periodicTable[word[0] - 'a'].size(); i++) {
-        if (word.substr(0, periodicTable[word[0] - 'a'][i].size()) == periodicTable[word[0] - 'a'][i]) {
-            string temp = word.substr(0, periodicTable[word[0] - 'a'][i].size());
-            word = word.substr(periodicTable[word[0] - 'a'][i].size());
-            ret = ret || solve(word);
-            word = temp + word;
-        }
-    }
-    
+    if (idx + 1 < word.size() && adj[word[idx] - 'a'][word[idx + 1] - 'a'])
+        ret = ret || solve(idx + 2);
+
     return ret;
 }
 
 int main() {
-    initPeriodicTable();
+    memset(adj, 0, sizeof(adj));
+    initGraph();
+    
+    cin >> T;
 
-    int N;
-    cin >> N;
-    for (int i = 0; i < N; i++) {
-        string word;
+    for (int i = 0; i < T; i++) {
+        memset(cache, -1, sizeof(cache));
+
         cin >> word;
 
-        if (solve(word))
-            cout << "YES\n";
-        else
-            cout << "NO\n";
+        if (solve(0)) cout << "YES\n";
+        else cout << "NO\n";
     }
 }
