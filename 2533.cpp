@@ -3,7 +3,6 @@
 using namespace std;
 
 const int INIT_VALUE = 2000000000;
-const int MAX = 1900000000;
 
 int N, cache[1000001][2];
 vector< vector<int> > f(1000001);
