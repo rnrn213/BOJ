@@ -4,33 +4,6 @@ using namespace std;
 
 int N;
 long long dp[1000001];
-vector<int> isReceived(1000001, 0);
-
-// int solve(int cnt, int idx)
-// {
-//     if (idx == N - 1)
-//     {
-//         if (isReceived[idx]) return 1;
-//         else return 0;
-//     }
-
-//     int& ret = dp[idx];
-//     if (ret != -1) return ret;
-//     ret = 0;
-
-//     for (int i = 0; i < N; i++)
-//     {
-//         if (i == idx) continue;
-//         if (!isReceived[i])
-//         {
-//             isReceived[i] = 1;
-//             ret = (ret + solve(cnt + 1, idx + 1)) % 1000000000;
-//             isReceived[i] = 0;
-//         }
-//     }
-
-//     return ret;
-// }
 
 int main()
 {
