@@ -25,6 +25,11 @@ int main()
     {
         if (-pq.top() > v[i].first)
             pq.push(-v[i].second);
+        else
+        {
+            pq.pop();
+            pq.push(-v[i].second);
+        }
     }
 
     cout << pq.size();
