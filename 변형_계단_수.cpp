@@ -40,13 +40,13 @@ int main()
     else
     {
         int ans = 0;
-    for (int i = 0; i < 10; i++)
-    {
-        if (i > 0)
-            ans = (ans + solve(0, i, 0, 0)) % MOD;
-        if (i < 9)
-            ans = (ans + solve(0, i, 1, 0)) % MOD;
+        for (int i = 0; i < 10; i++)
+        {
+            if (i > 0)
+                ans = (ans + solve(0, i, 0, 0)) % MOD;
+            if (i < 9)
+                ans = (ans + solve(0, i, 1, 0)) % MOD;
+        }
+        cout << ans;
     }
-    cout << ans;
-}
 }
